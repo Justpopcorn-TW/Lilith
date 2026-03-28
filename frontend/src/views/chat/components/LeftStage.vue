@@ -30,19 +30,11 @@
       </div>
     </div>
 
-    <div class="status-metrics">
-      <div class="metric-item">
-        <span class="label">AFFECTION (好感度)</span>
-        <div class="bar-bg">
-          <div class="bar-fill primary-bar" :style="{ width: stats.affection + '%' }"></div>
-        </div>
-      </div>
-      <div class="metric-item">
-        <span class="label">TRUST (信賴度)</span>
-        <div class="bar-bg">
-          <div class="bar-fill blue" :style="{ width: stats.trust + '%' }"></div>
-        </div>
-      </div>
+    <div class="aes-trigger-zone">
+      <button class="aes-monitor-btn" @click="$emit('open-aes')">
+        <span class="icon">🧬</span>
+        <span class="text">SOMATIC SYSTEM (AES)</span>
+      </button>
     </div>
 
   </section>
@@ -57,6 +49,8 @@ import { useChatStore } from '../../../stores/chatStore';
 defineProps({
   stats: { type: Object, required: true }
 });
+
+defineEmits(['open-aes']);
 
 const router = useRouter();
 const configStore = useConfigStore();
@@ -78,7 +72,6 @@ const formatNumber = (num) => {
 </script>
 
 <style scoped>
-/* 原有的樣式保持不變 */
 .left-stage { 
   position: relative; 
   display: flex; 
@@ -194,41 +187,6 @@ const formatNumber = (num) => {
   pointer-events: none;
 }
 
-.status-metrics { 
-  padding: 20px; 
-  background: var(--panel-bg); 
-  border-top: 1px solid var(--border-color); 
-  transition: all 0.3s ease;
-}
-
-.metric-item { margin-bottom: 15px; }
-.metric-item .label { 
-  font-size: 0.75em; 
-  font-weight: bold; 
-  color: var(--text-secondary); 
-  display: block; 
-  margin-bottom: 6px; 
-}
-.bar-bg { 
-  height: 6px; 
-  background: var(--border-color); 
-  border-radius: 3px; 
-}
-.bar-fill { 
-  height: 100%; 
-  border-radius: 3px; 
-  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
-}
-
-.bar-fill.primary-bar { 
-  background: var(--accent-primary); 
-  box-shadow: 0 0 10px var(--accent-glow); 
-}
-.bar-fill.blue { 
-  background: #0095ff; 
-  box-shadow: 0 0 10px rgba(0,149,255,0.4); 
-}
-
 /* 進場動畫：縮小 -> 放大，帶模糊感 */
 .sprite-fade-enter-active {
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -249,5 +207,41 @@ const formatNumber = (num) => {
   opacity: 0;
   transform: scale(1.05);
   filter: blur(5px);
+}
+
+.aes-trigger-zone {
+  padding: 20px;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.aes-monitor-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.aes-monitor-btn:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.aes-monitor-btn .icon {
+  font-size: 1.2em;
 }
 </style>

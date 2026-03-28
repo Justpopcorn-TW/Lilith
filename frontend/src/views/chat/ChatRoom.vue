@@ -2,6 +2,7 @@
   <div class="chat-layout">
     <LeftStage 
       :stats="stats" 
+      @open-aes="showAesPanel = true"
     />
 
     <CenterConsole
@@ -23,27 +24,33 @@
       @save-file="handleSaveFile"
       @apply-changes="applySystemChanges"
     />
+
+    <SomaticPanel 
+      :show="showAesPanel" 
+      :stats="stats" 
+      @close="showAesPanel = false" 
+    />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+// 🌟 引入 Vue 的 ref 與新組件
+import { ref, onMounted } from 'vue';
 
-// 引入子元件
 import LeftStage from './components/LeftStage.vue';
 import CenterConsole from './components/CenterConsole.vue';
 import RightIDE from './components/RightIDE.vue';
+import SomaticPanel from './components/SomaticPanel.vue'; // 🌟 引入
 
-// 引入核心邏輯
 import { useGameSystem } from './composables/useGameSystem';
 import { useChat } from './composables/useChat';
 import { useIDE } from './composables/useIDE';
 
-// 1. 初始化狀態與系統時間
+const showAesPanel = ref(false);
+
 const { currentTime, stats, updateStats } = useGameSystem();
 const savedConId = localStorage.getItem('lilith_conversation_id') || 'web_user';
 
-// 2. 初始化對話系統 (將 updateStats 傳入，讓對話後自動更新好感度)
 const { 
   messageHistory, 
   isThinking, 
@@ -52,7 +59,6 @@ const {
   loadHistory 
 } = useChat(savedConId, updateStats);
 
-// 3. 初始化 IDE 系統
 const { 
   fileList, 
   currentDir, 
@@ -66,22 +72,16 @@ const {
   applySystemChanges 
 } = useIDE();
 
-// ============================================================
-// 事件處理區 (Event Handlers)
-// ============================================================
-
 const handleSend = async (text) => {
-  // 目前單 Agent 架構傳送純文字，若未來有需要附件功能可在此擴充
   await sendMessage(text, []); 
 };
 
-// 處理 IDE 中點擊檔案或資料夾的邏輯
 const handleSelectFile = (item) => {
   if (item.type === 'folder') {
     currentDir.value = item.path;
-    fetchFileList(); // 進入資料夾並重新拉取列表
+    fetchFileList(); 
   } else {
-    openFile(item.path); // 開啟檔案進入編輯器
+    openFile(item.path); 
   }
 };
 
@@ -89,15 +89,9 @@ const handleSaveFile = async (fileObj) => {
   await saveFile(fileObj.path, fileObj.content);
 };
 
-// ============================================================
-// 生命週期 (Lifecycle)
-// ============================================================
-
 onMounted(() => {
-  // 網頁載入時，自動去後端抓取歷史對話 (包含 Session Array 狀態)
   loadHistory();
 });
-
 </script>
 
 <style scoped>
@@ -105,15 +99,14 @@ onMounted(() => {
   display: flex;
   height: 100vh;
   width: 100vw;
-  background-color: var(--bg-primary); /* 🌟 套用變數 */
-  color: var(--text-primary);          /* 🌟 套用變數 */
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow: hidden;
   font-family: 'Inter', sans-serif;
   transition: all 0.3s ease;
 }
 
-/* 三欄式彈性佈局 */
-.chat-layout > *:nth-child(1) { flex: 0 0 350px; }  /* 左側：人物面板固定寬度 */
-.chat-layout > *:nth-child(2) { flex: 1; min-width: 400px; } /* 中間：對話框自適應延伸 */
-.chat-layout > *:nth-child(3) { flex: 0 0 350px; }  /* 右側：IDE 區塊固定寬度 */
+.chat-layout > *:nth-child(1) { flex: 0 0 350px; }
+.chat-layout > *:nth-child(2) { flex: 1; min-width: 400px; }
+.chat-layout > *:nth-child(3) { flex: 0 0 350px; }
 </style>
