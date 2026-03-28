@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 export const useConfigStore = defineStore('config', () => {
   const generalSettings = ref({
@@ -9,5 +9,16 @@ export const useConfigStore = defineStore('config', () => {
     showTokenUsage: true 
   });
 
-  return { generalSettings };
+  const isDarkMode = ref(localStorage.getItem('lilith_theme') !== 'light');
+
+  watch(isDarkMode, (val) => {
+    localStorage.setItem('lilith_theme', val ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', val ? 'dark' : 'light');
+  }, { immediate: true });
+
+  const toggleTheme = () => {
+    isDarkMode.value = !isDarkMode.value;
+  };
+
+  return { generalSettings, isDarkMode, toggleTheme };
 });

@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 🌟 指向後端 configs 資料夾中的官方照片
-const PORTRAIT_PATH = path.resolve(__dirname, '../../src/assets/lilith-portrait.jpg');
+const PORTRAIT_PATH = path.resolve(__dirname, '../../src/assets/lilith-light.jpg');
 
 export default {
     run: async () => {

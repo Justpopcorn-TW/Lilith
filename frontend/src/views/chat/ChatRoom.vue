@@ -105,14 +105,15 @@ onMounted(() => {
   display: flex;
   height: 100vh;
   width: 100vw;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--bg-primary); /* 🌟 套用變數 */
+  color: var(--text-primary);          /* 🌟 套用變數 */
   overflow: hidden;
   font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
 }
 
 /* 三欄式彈性佈局 */
-.chat-layout > *:nth-child(1) { flex: 0 0 350px; }  /* 左側：人物面板固定寬度縮小一點點 */
+.chat-layout > *:nth-child(1) { flex: 0 0 350px; }  /* 左側：人物面板固定寬度 */
 .chat-layout > *:nth-child(2) { flex: 1; min-width: 400px; } /* 中間：對話框自適應延伸 */
 .chat-layout > *:nth-child(3) { flex: 0 0 350px; }  /* 右側：IDE 區塊固定寬度 */
 </style>

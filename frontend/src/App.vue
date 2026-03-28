@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="configStore.isDarkMode ? darkTheme : null">
     <n-message-provider>
       <div class="app-root">
         <router-view v-slot="{ Component }">
@@ -14,21 +14,23 @@
 
 <script setup>
 import { NConfigProvider, NMessageProvider, darkTheme } from 'naive-ui';
+import { useConfigStore } from './stores/configStore';
+
+const configStore = useConfigStore();
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap');
 
-body { margin: 0; padding: 0; background: #1a1a1a; }
-
 .app-root { 
   width: 100vw; 
   height: 100dvh; 
-  background: #1a1a1a; 
+  background: var(--bg-primary); /* 套用變數 */
+  color: var(--text-primary);   /* 套用變數 */
   overflow: hidden; 
   position: relative; 
   font-family: 'Noto Sans TC', sans-serif;
-  color: #eee;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }

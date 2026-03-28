@@ -213,27 +213,31 @@ const goToSetup = () => {
 </script>
 
 <style scoped>
+/* 🌟 1. 整體佈局：綁定背景與主文字顏色變數 */
 .settings-layout {
   display: flex;
   height: 100vh;
-  background-color: #0f0f13;
-  color: #eee;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
 }
 
+/* 🌟 2. 側邊欄：綁定次要背景與邊框變數 */
 .sidebar {
   width: 250px;
-  background: #1a1a20;
-  border-right: 1px solid #2a2a30;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
+  transition: all 0.3s ease;
 }
 
 .brand {
   padding: 2rem 1.5rem;
 }
-.brand h2 { margin: 0; font-size: 1.2rem; color: #fff; }
-.brand p { margin: 0; font-size: 0.8rem; color: #888; }
+.brand h2 { margin: 0; font-size: 1.2rem; color: var(--text-primary); transition: color 0.3s ease; }
+.brand p { margin: 0; font-size: 0.8rem; color: var(--text-secondary); transition: color 0.3s ease; }
 
 .nav-menu {
   flex: 1;
@@ -246,7 +250,7 @@ const goToSetup = () => {
 .nav-menu button {
   background: transparent;
   border: none;
-  color: #aaa;
+  color: var(--text-secondary);
   text-align: left;
   padding: 10px 15px;
   border-radius: 8px;
@@ -255,8 +259,16 @@ const goToSetup = () => {
   font-size: 0.95rem;
 }
 
-.nav-menu button:hover { background: #2a2a30; color: #fff; }
-.nav-menu button.active { background: rgba(234, 76, 137, 0.15); color: #ea4c89; font-weight: 600; }
+.nav-menu button:hover { 
+  background: var(--panel-bg); 
+  color: var(--text-primary); 
+}
+/* 🌟 選中狀態：綁定主題發光與主色變數 */
+.nav-menu button.active { 
+  background: var(--accent-glow); 
+  color: var(--accent-primary); 
+  font-weight: 600; 
+}
 
 .sidebar-footer { padding: 1.5rem; }
 .w-full { width: 100%; }
@@ -269,10 +281,11 @@ const goToSetup = () => {
 
 .content-header {
   padding: 2rem 3rem;
-  border-bottom: 1px solid #2a2a30;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .content-header h3 { margin: 0; font-size: 1.5rem; font-weight: 600; }
@@ -286,41 +299,83 @@ const goToSetup = () => {
 .settings-panel { max-width: 600px; }
 
 .form-group { margin-bottom: 1.5rem; }
-.form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #aaa; margin-bottom: 0.5rem; }
+.form-group label { 
+  display: block; 
+  font-size: 0.85rem; 
+  font-weight: 600; 
+  color: var(--text-secondary); 
+  margin-bottom: 0.5rem; 
+  transition: color 0.3s ease; 
+}
+
+/* 🌟 輸入框與面板：綁定面板背景與邊框變數 */
 .input-field { 
   width: 100%; 
   padding: 0.8rem 1rem; 
-  background: #141418;
-  border: 1px solid #333; 
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color); 
   border-radius: 8px; 
   font-size: 1rem; 
-  color: #eee; 
-  transition: 0.2s; 
+  color: var(--text-primary); 
+  transition: all 0.2s; 
   box-sizing: border-box; 
 }
-.input-field:focus { outline: none; border-color: #ea4c89; }
+.input-field:focus { 
+  outline: none; 
+  border-color: var(--accent-primary); 
+  box-shadow: 0 0 5px var(--accent-glow); 
+}
+
 .mt-4 { margin-top: 1.5rem; }
-.mt-3 { margin-top: 1rem; } /* 🌟 新增邊距樣式 */
+.mt-3 { margin-top: 1rem; }
 
 .toggle-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #141418;
-  border: 1px solid #333;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
+  transition: all 0.3s ease;
 }
 .toggle-group label { margin: 0; }
 
-.btn-primary { background: #ea4c89; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-.btn-primary:hover:not(:disabled) { background: #db2777; }
+/* 🌟 主按鈕：綁定主題色 */
+.btn-primary { 
+  background: var(--accent-primary); 
+  color: white; 
+  border: none; 
+  padding: 0.6rem 1.5rem; 
+  border-radius: 8px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: all 0.2s ease; 
+}
+.btn-primary:hover:not(:disabled) { 
+  opacity: 0.85; 
+  box-shadow: 0 0 10px var(--accent-glow); 
+}
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.btn-secondary { background: #2a2a30; color: #eee; border: 1px solid #444; padding: 0.6rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-.btn-secondary:hover { background: #333; }
+/* 🌟 次要按鈕：適應深淺色的按鈕背景 */
+.btn-secondary { 
+  background: var(--btn-bg); 
+  color: var(--text-primary); 
+  border: 1px solid var(--border-color); 
+  padding: 0.6rem 1.5rem; 
+  border-radius: 8px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  transition: all 0.2s ease; 
+}
+.btn-secondary:hover { 
+  background: var(--panel-bg); 
+  border-color: var(--accent-primary); 
+  color: var(--accent-primary); 
+}
 
-/* 🌟 新增紅色危險按鈕樣式 */
+/* 警示按鈕保持紅色不變，但調整為半透明邊框適應所有主題 */
 .btn-danger { 
   background: transparent; 
   color: #ef4444; 

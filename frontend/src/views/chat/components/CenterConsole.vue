@@ -82,12 +82,12 @@ const handleSend = () => {
 </script>
 
 <style scoped>
-.center-console { display: flex; flex-direction: column; height: 100%; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.05); }
-.console-header { height: 40px; display: flex; align-items: center; padding: 0 20px; background: #111; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.75em; color: #666; }
+.center-console { display: flex; flex-direction: column; height: 100%; background: var(--bg-primary); border-right: 1px solid var(--border-color); transition: all 0.3s ease; }
+.console-header { height: 40px; display: flex; align-items: center; padding: 0 20px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); font-size: 0.75em; color: var(--text-secondary); transition: all 0.3s ease; }
 .header-col { flex: 1; }
 .header-col.center { text-align: center; }
 .header-col.right { text-align: right; }
-.sys-title { color: #ea4c89; font-weight: bold; }
+.sys-title { color: var(--accent-primary); font-weight: bold; transition: color 0.3s ease; }
 .chat-viewport { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
 
 .msg-row { display: flex; gap: 15px; max-width: 85%; }
@@ -95,26 +95,27 @@ const handleSend = () => {
 .msg-row.assistant { align-self: flex-start; }
 
 .avatar-col { width: 36px; flex-shrink: 0; }
-.avatar-frame { width: 36px; height: 36px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(234, 76, 137, 0.3); }
+.avatar-frame { width: 36px; height: 36px; border-radius: 8px; overflow: hidden; border: 1px solid var(--accent-glow); transition: border-color 0.3s ease; }
 .avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
 .bubble-col { display: flex; flex-direction: column; gap: 8px; max-width: 100%; }
-.message-bubble { padding: 12px 16px; border-radius: 12px; background: #1a1a1a; color: #d4d4d4; font-size: 0.95em; line-height: 1.6; }
-.user .message-bubble { background: #ea4c89; color: white; }
+.message-bubble { padding: 12px 16px; border-radius: 12px; background: var(--bg-secondary); color: var(--text-primary); font-size: 0.95em; line-height: 1.6; border: 1px solid var(--border-color); transition: all 0.3s ease; }
+.user .message-bubble { background: var(--accent-primary); color: white; border: none; box-shadow: 0 2px 10px var(--accent-glow); }
 .content-text { white-space: pre-wrap; font-family: inherit; margin: 0; word-break: break-word; }
 
 /* 附件樣式 */
 .msg-attachments { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
-.attachment-item { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; color: #aaa; }
+.attachment-item { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; color: var(--text-secondary); }
 
 /* 圖片渲染器專用的 CSS */
 .lilith-image-wrapper {
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
   max-width: 400px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
 }
 .generated-img {
   width: 100%;
@@ -122,12 +123,14 @@ const handleSend = () => {
   display: block;
 }
 
-.typing-indicator { font-size: 0.85em; color: #888; font-style: italic; margin-left: 50px; }
+.typing-indicator { font-size: 0.85em; color: var(--text-secondary); font-style: italic; margin-left: 50px; }
 
-.console-footer { padding: 20px; background: #111; border-top: 1px solid rgba(255,255,255,0.05); }
-.input-wrapper { display: flex; gap: 10px; background: #0a0a0a; border: 1px solid #333; padding: 10px; border-radius: 8px; }
-.terminal-input { flex: 1; background: transparent; border: none; color: #ea4c89; font-family: 'JetBrains Mono', monospace; outline: none; resize: none; height: 40px; }
-.send-btn { background: #ea4c89; color: white; border: none; padding: 0 20px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-.send-btn:hover:not(:disabled) { background: #db2777; }
+.console-footer { padding: 20px; background: var(--bg-secondary); border-top: 1px solid var(--border-color); transition: all 0.3s ease; }
+.input-wrapper { display: flex; gap: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px; transition: border-color 0.3s, box-shadow 0.3s; }
+.input-wrapper:focus-within { border-color: var(--accent-primary); box-shadow: 0 0 5px var(--accent-glow); }
+.terminal-input { flex: 1; background: transparent; border: none; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; outline: none; resize: none; height: 40px; transition: color 0.3s ease; }
+.terminal-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+.send-btn { background: var(--accent-primary); color: white; border: none; padding: 0 20px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.send-btn:hover:not(:disabled) { opacity: 0.8; box-shadow: 0 0 10px var(--accent-glow); }
 .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>

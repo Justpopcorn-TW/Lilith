@@ -6,6 +6,10 @@
         ⚙️ SETTINGS
       </button>
 
+      <button class="theme-toggle-btn" @click="configStore.toggleTheme" :title="configStore.isDarkMode ? '切換至淺色模式' : '切換至深色模式'">
+        {{ configStore.isDarkMode ? '🌙' : '☀️' }}
+      </button>
+
       <span v-if="configStore.generalSettings?.showTokenUsage" class="token-text" title="累計消耗的 Token">
         Tokens: {{ formatNumber(chatStore.totalTokens || 0) }}
       </span>
@@ -14,7 +18,14 @@
     <div class="character-wrapper">
       <div class="full-sprite active">
         <div class="sprite-body lilith-style">
-          <img src="/lilith-portrait.png" alt="Lilith" class="character-cg" />
+          <transition name="sprite-fade" mode="out-in">
+            <img 
+              :src="currentPortrait" 
+              :key="currentPortrait" 
+              alt="Lilith" 
+              class="character-cg" 
+            />
+          </transition>
         </div>
       </div>
     </div>
@@ -23,7 +34,7 @@
       <div class="metric-item">
         <span class="label">AFFECTION (好感度)</span>
         <div class="bar-bg">
-          <div class="bar-fill pink" :style="{ width: stats.affection + '%' }"></div>
+          <div class="bar-fill primary-bar" :style="{ width: stats.affection + '%' }"></div>
         </div>
       </div>
       <div class="metric-item">
@@ -38,6 +49,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'; 
 import { useRouter } from 'vue-router';
 import { useConfigStore } from '../../../stores/configStore';
 import { useChatStore } from '../../../stores/chatStore';
@@ -50,8 +62,14 @@ const router = useRouter();
 const configStore = useConfigStore();
 const chatStore = useChatStore();
 
+const currentPortrait = computed(() => {
+  return configStore.isDarkMode 
+    ? '/portraits/lilith-dark.png'
+    : '/portraits/lilith-light.png';
+});
+
 const goToSettings = () => {
-  router.push('/settings');
+  router.push('/settings'); 
 };
 
 const formatNumber = (num) => {
@@ -60,17 +78,18 @@ const formatNumber = (num) => {
 </script>
 
 <style scoped>
+/* 原有的樣式保持不變 */
 .left-stage { 
   position: relative; 
   display: flex; 
   flex-direction: column; 
-  border-right: 1px solid rgba(255,255,255,0.05); 
-  background: rgba(0,0,0,0.2); 
+  border-right: 1px solid var(--border-color); 
+  background: var(--bg-secondary); 
   height: 100%; 
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-/* 控制列樣式，按鈕跟 Token 橫向並排並垂直置中 */
 .sys-controls {
   position: absolute;
   top: 15px;
@@ -81,41 +100,54 @@ const formatNumber = (num) => {
   gap: 12px;
 }
 
-.settings-btn {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #888;
-  padding: 6px 12px;
+.settings-btn, .theme-toggle-btn {
+  background: var(--btn-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   border-radius: 6px;
-  font-size: 0.75em;
   font-family: 'JetBrains Mono', monospace;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
+  
+  height: 32px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-.settings-btn:hover {
-  background: rgba(234, 76, 137, 0.2);
-  border-color: rgba(234, 76, 137, 0.5);
-  color: #ea4c89;
-  box-shadow: 0 0 10px rgba(234, 76, 137, 0.2);
+.settings-btn {
+  padding: 0 12px;
+  font-size: 0.75em;
 }
 
-/* 🌟 小灰字 Token 樣式 */
+.theme-toggle-btn {
+  width: 32px; 
+  padding: 0;
+  font-size: 1.1em; 
+}
+
+.settings-btn:hover, .theme-toggle-btn:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
 .token-text {
-  color: rgba(255, 255, 255, 0.25); /* 極低調的半透明灰白色 */
+  color: var(--token-text);
   font-size: 0.7rem;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.5px;
-  user-select: none; /* 避免反白干擾 */
+  user-select: none; 
   transition: color 0.3s ease;
 }
 
 .token-text:hover {
-  color: rgba(255, 255, 255, 0.6); /* 滑鼠游標移過去時稍微變亮 */
+  color: var(--token-text-hover); 
 }
 
-/* 人物立繪容器 */
 .character-wrapper {
   flex: 1;
   display: flex;
@@ -146,9 +178,10 @@ const formatNumber = (num) => {
 }
 
 .lilith-style { 
-  border: 2px solid rgba(234, 76, 137, 0.3); 
-  box-shadow: 0 0 25px rgba(234, 76, 137, 0.15);
-  background: #111;
+  border: 2px solid var(--accent-glow); 
+  box-shadow: 0 0 25px var(--accent-glow);
+  background: var(--bg-primary);
+  transition: all 0.3s ease;
 }
 
 .character-cg {
@@ -163,21 +196,22 @@ const formatNumber = (num) => {
 
 .status-metrics { 
   padding: 20px; 
-  background: rgba(255,255,255,0.02); 
-  border-top: 1px solid rgba(255,255,255,0.05); 
+  background: var(--panel-bg); 
+  border-top: 1px solid var(--border-color); 
+  transition: all 0.3s ease;
 }
 
 .metric-item { margin-bottom: 15px; }
 .metric-item .label { 
   font-size: 0.75em; 
   font-weight: bold; 
-  color: #888; 
+  color: var(--text-secondary); 
   display: block; 
   margin-bottom: 6px; 
 }
 .bar-bg { 
   height: 6px; 
-  background: rgba(255,255,255,0.1); 
+  background: var(--border-color); 
   border-radius: 3px; 
 }
 .bar-fill { 
@@ -185,6 +219,35 @@ const formatNumber = (num) => {
   border-radius: 3px; 
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); 
 }
-.bar-fill.pink { background: #ea4c89; box-shadow: 0 0 10px rgba(234,76,137,0.5); }
-.bar-fill.blue { background: #0095ff; box-shadow: 0 0 10px rgba(0,149,255,0.5); }
+
+.bar-fill.primary-bar { 
+  background: var(--accent-primary); 
+  box-shadow: 0 0 10px var(--accent-glow); 
+}
+.bar-fill.blue { 
+  background: #0095ff; 
+  box-shadow: 0 0 10px rgba(0,149,255,0.4); 
+}
+
+/* 進場動畫：縮小 -> 放大，帶模糊感 */
+.sprite-fade-enter-active {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 離場動畫：正常 -> 縮小 */
+.sprite-fade-leave-active {
+  transition: all 0.4s ease-in;
+}
+
+.sprite-fade-enter-from {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
+  filter: blur(10px);
+}
+
+.sprite-fade-leave-to {
+  opacity: 0;
+  transform: scale(1.05);
+  filter: blur(5px);
+}
 </style>

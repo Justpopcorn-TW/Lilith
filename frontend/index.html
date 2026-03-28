@@ -1,13 +1,74 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lilith</title>
+    
+    <title>Lilith | AI 核心主控台</title>
+    <meta name="description" content="Lilith - 基於大語言模型建構的個人化陪伴與輔助 AI 系統。" />
+    <meta name="keywords" content="AI, LLM, Chatbot, Lilith, Assistant, Rick" />
+    <meta name="author" content="Rick" />
+
+    <meta name="theme-color" content="#0f0f13" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lilith | AI 核心主控台" />
+    <meta property="og:description" content="與你的專屬 AI 夥伴進行深度對話與協作。" />
+    <meta property="og:image" content="/lilith-portrait.png" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        background-color: #0f0f13;
+        height: 100%;
+      }
+      /* 當 #app 裡面還沒有被 Vue 替換掉時，讓它置中 */
+      #app:empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Inter', sans-serif;
+        color: #666;
+      }
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(234, 76, 137, 0.15); /* 莉莉絲主題粉紅 */
+        border-top-color: #ea4c89;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+      }
+      .loading-text {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        animation: pulse 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes pulse {
+        0% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="loader"></div>
+      <div class="loading-text">SYSTEM BOOTING...</div>
+    </div>
+    
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
