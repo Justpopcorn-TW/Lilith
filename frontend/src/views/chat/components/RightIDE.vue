@@ -232,8 +232,15 @@ const handleApply = async () => {
 .ide-editor { flex-grow: 1; display: flex; flex-direction: column; background: var(--bg-primary); overflow: hidden; position: relative; transition: all 0.3s ease; }
 
 /* Tabs */
-.editor-tabs { background: var(--bg-secondary); height: 35px; display: flex; overflow-x: auto; flex-shrink: 0; border-bottom: 1px solid var(--border-color); }
-.editor-tabs::-webkit-scrollbar { height: 3px; }
+.editor-tabs { 
+  background: var(--bg-secondary); 
+  height: 35px; 
+  display: flex; 
+  overflow-x: auto; 
+  flex-shrink: 0; 
+  border-bottom: 1px solid var(--border-color); 
+  transition: background 0.3s ease, border-color 0.3s ease; 
+}.editor-tabs::-webkit-scrollbar { height: 3px; }
 .editor-tabs::-webkit-scrollbar-thumb { background: var(--border-color); }
 
 .tab { 

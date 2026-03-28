@@ -126,7 +126,7 @@ const handleSend = () => {
 .typing-indicator { font-size: 0.85em; color: var(--text-secondary); font-style: italic; margin-left: 50px; }
 
 .console-footer { padding: 20px; background: var(--bg-secondary); border-top: 1px solid var(--border-color); transition: all 0.3s ease; }
-.input-wrapper { display: flex; gap: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px; transition: border-color 0.3s, box-shadow 0.3s; }
+.input-wrapper { display: flex; gap: 10px; background: var(--bg-primary); border: 1px solid var(--border-color); padding: 10px; border-radius: 8px; transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
 .input-wrapper:focus-within { border-color: var(--accent-primary); box-shadow: 0 0 5px var(--accent-glow); }
 .terminal-input { flex: 1; background: transparent; border: none; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; outline: none; resize: none; height: 40px; transition: color 0.3s ease; }
 .terminal-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
