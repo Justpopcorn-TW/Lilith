@@ -3,7 +3,7 @@
     
     <div class="sys-controls">
       <button class="settings-btn" @click="goToSettings" title="系統設定 (System Setup)">
-        ⚙️ SETUP
+        ⚙️ SETTINGS
       </button>
 
       <span v-if="configStore.generalSettings?.showTokenUsage" class="token-text" title="累計消耗的 Token">
@@ -51,7 +51,7 @@ const configStore = useConfigStore();
 const chatStore = useChatStore();
 
 const goToSettings = () => {
-  router.push('/setup');
+  router.push('/settings');
 };
 
 const formatNumber = (num) => {

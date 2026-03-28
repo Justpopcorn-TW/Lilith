@@ -131,11 +131,9 @@ export class CognitionModule {
                 this.reflexEngine.evaluateSelfFeedback(conversationId, reply, executedTools).catch(e => appLogger.error(e));
             }
 
-            const currentTotalTokens = await this.repo.getTotalTokens(conversationId);
             return {
                 channelId: payload.channelId,
                 messages: [reply],
-                totalTokens: currentTotalTokens,    
                 emotion: { 
                     chemicals: moodState.rawLevels,
                     isStressed: moodState.rawLevels.CORTISOL > 60 || moodState.rawLevels.ADRENALINE > 60

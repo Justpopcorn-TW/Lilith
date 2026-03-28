@@ -119,11 +119,8 @@ parentPort.on('message', async (msg) => {
                 platformContext // 🌟 傳遞包含 Markdown 知識的巨大 Context 給大腦
             });
 
-            const currentTotalTokens = await repo.getTotalTokens(conversationId);
-
             result.source = source;
             result.requestId = requestId;
-            result.totalTokens = currentTotalTokens;
 
             await sendResponse(result);
         } catch (error) {

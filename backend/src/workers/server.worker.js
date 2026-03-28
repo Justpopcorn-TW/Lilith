@@ -319,7 +319,7 @@ app.post('/api/chat', async (req, res) => {
         }
     }, REQUEST_TIMEOUT);
 
-    pendingRequests.set(requestId, { res, timeoutId: setupTimeout() });
+    pendingRequests.set(requestId, { res, timeoutId: setupTimeout(), conversationId });
 
     parentPort.postMessage({ 
         type: 'WEB_CHAT_REQUEST', 
@@ -333,13 +333,21 @@ app.post('/api/system/restart', (req, res) => {
     res.json({ success: true, message: "Restart signal sent." });
 });
 
-parentPort.on('message', (msg) => {
+parentPort.on('message', async (msg) => {
     if (msg.type === 'WEB_CHAT_RESPONSE' || msg.type === 'WEB_CHAT_HEARTBEAT') {
         const { requestId, response } = msg;
         const entry = pendingRequests.get(requestId);
         if (entry) {
             clearTimeout(entry.timeoutId);
             if (msg.type === 'WEB_CHAT_RESPONSE') {
+                try {
+                    if (repo && entry.conversationId) {
+                        const latestTokens = await repo.getTotalTokens(entry.conversationId);
+                        response.totalTokens = latestTokens;
+                    }
+                } catch (e) {
+                    appLogger.warn('[Server] Failed to fetch total tokens before response:', e);
+                }
                 if (!entry.res.headersSent) entry.res.json(response);
                 pendingRequests.delete(requestId);
             } else {
