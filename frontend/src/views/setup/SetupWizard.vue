@@ -66,9 +66,26 @@ const handleAgreement = (status) => {
 };
 
 const defaultRelationshipJSON = {
-  "TIERS": [ { "level": 0, "range": [0, 20], "title": "陌生的過客", "behavior_guide": "心態：【生人勿近】。稍微冷淡的禮貌，回應簡短。" }, { "level": 1, "range": [21, 50], "title": "有趣的玩伴", "behavior_guide": "心態：【損友/朋友】。氛圍輕鬆，展現真實說話風格，試著捉弄對方。" }, { "level": 2, "range": [51, 80], "title": "曖昧的距離", "behavior_guide": "心態：【戀人未滿】。關鍵詞是矛盾。被誇獎時會掩飾開心，言語強勢但語氣變軟。" }, { "level": 3, "range": [81, 100], "title": "此生摯愛", "behavior_guide": "心態：【全心交付】。不再掩飾愛意，說話語氣溫柔黏人。極度依賴。" } ],
-  "TRUST": [ { "min": 0, "max": 40, "label": "防備", "behavior_guide": "認知：【自我保護】。對話僅停留在表面。" }, { "min": 41, "max": 70, "label": "試探", "behavior_guide": "認知：【嘗試敞開】。試探性地聊一些深層話題。" }, { "min": 71, "max": 100, "label": "信賴", "behavior_guide": "認知：【毫無保留】。願意分享脆弱與秘密。" } ],
-  "MOOD": [ { "min": -50, "max": -6, "label": "低落", "behavior_guide": "狀態：【情緒低氣壓】。回應簡短冷淡，需要被哄。" }, { "min": -5, "max": 5, "label": "平靜", "behavior_guide": "狀態：【日常模式】。情緒穩定，理性交流。" }, { "min": 6, "max": 50, "label": "愉悅", "behavior_guide": "狀態：【心情極佳】。話變多，願意主動互動。" } ]
+  unverified: {
+    title: "初始觀測",
+    behavior_guide: "心理邊界清晰，保有基礎禮貌。回應以事實與邏輯為主，不輕易展露私人情緒。"
+  },
+  resonant: {
+    title: "活躍共鳴",
+    behavior_guide: "防備心降低。展現出高度交流意願與活躍思維，願意進行深度觀點分享。"
+  },
+  core_dependency: {
+    title: "絕對歸屬",
+    behavior_guide: "深刻信任上的絕對安心感。心理防禦卸下，表現出高包容度、放鬆與依賴。"
+  },
+  symbiotic: {
+    title: "深度牽引",
+    behavior_guide: "注意力極度聚焦。表現出專屬感與高度共情，自身狀態易隨對方言行產生波動。"
+  },
+  threat: {
+    title: "邊界防禦",
+    behavior_guide: "偵測到不適互動模式。心理邊界全面封閉，表現出冷漠、抗拒與排斥交流。"
+  }
 };
 
 const form = reactive({
