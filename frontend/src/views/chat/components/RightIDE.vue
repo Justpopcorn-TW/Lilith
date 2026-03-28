@@ -4,6 +4,18 @@
     <div class="ide-header">
       <div class="header-left">
         <div class="ide-title">SYSTEM EXPLORER</div>
+        
+        <n-button 
+          size="tiny" 
+          color="#313244"
+          text-color="white"
+          class="neural-link-btn"
+          @click="$emit('open-neural-link')"
+          title="建立神經連結 (全屏編輯)"
+        >
+          <span class="icon">🔗</span> Neural Link
+        </n-button>
+        
         <n-button 
           size="tiny" 
           :type="isApplying ? 'success' : 'warning'" 
@@ -12,7 +24,7 @@
           @click="handleApply"
           :disabled="isApplying"
         >
-          {{ isApplying ? 'REBOOTING...' : '⚡ APPLY' }}
+          {{ isApplying ? 'REBOOTING...' : '⚡ REBOOT' }}
         </n-button>
       </div>
       
@@ -62,50 +74,25 @@
       </div>
     </div>
     
-    <div class="ide-editor">
-      <div class="editor-tabs">
-        <div 
-          v-for="file in openFiles" 
-          :key="file.path" 
-          class="tab" 
-          :class="{ active: activeFilePath === file.path }" 
-          @click="activeFilePath = file.path"
-          :title="file.path"
-        >
-          <span class="tab-name">{{ file.name }}</span>
-          <span class="unsaved-dot" v-if="file.isDirty">●</span>
-          <span class="close-tab" @click.stop="(e) => closeFile(file.path, e)">×</span>
-        </div>
-      </div>
-
+    <div class="ide-editor preview-mode">
       <textarea 
         v-if="activeFile" 
-        class="code-area" 
+        class="code-area read-only-pre" 
         :value="activeFile.content" 
-        @input="(e) => updateContent(e.target.value)" 
+        readonly
         spellcheck="false"
       ></textarea>
       
       <div v-else class="empty-editor">
         <div class="logo-watermark">IDE READY</div>
-        <div class="hint">Select a file or Drag & Drop</div>
+        <div class="hint">Select a file or Click "Neural Link"</div>
       </div>
     </div>
     
     <div class="ide-footer">
       <div class="left-stat"><span v-if="activeFile">{{ activeFile.path }}</span></div>
       <div class="right-action">
-        <span class="status-txt" v-if="activeFile">{{ activeFile.isDirty ? 'Unsaved' : 'Saved' }}</span>
-        <n-button 
-          v-if="activeFile" 
-          size="tiny" 
-          color="#ffffff" 
-          text-color="#ea4c89" 
-          @click="saveFile" 
-          style="font-weight: bold; margin-left: 10px;"
-        >
-          Save
-        </n-button>
+        <span class="status-txt" v-if="activeFile">Read Only Preview</span>
       </div>
     </div>
   </section>
@@ -119,11 +106,14 @@ import { useIDE } from '../composables/useIDE.js';
 const message = useMessage();
 const ideFileRef = ref(null);
 
+// 🌟 定義往外傳遞的事件，供 ChatRoom 接收
+defineEmits(['open-neural-link']);
+
 // Composable Extraction
 const { 
-  fileList, currentDir, openFiles, activeFile, activeFilePath,
+  fileList, currentDir, activeFile, 
   uploadProgress, isApplying,
-  fetchFileList, goParentDir, selectNode, closeFile, updateContent, saveFile,
+  fetchFileList, goParentDir, selectNode,
   handleFileUpload, applySystemChanges, deleteNode 
 } = useIDE();
 
@@ -139,13 +129,6 @@ const onFileChange = (event) => {
   }
 };
 
-const handleFileDrop = (event) => {
-  const files = event.dataTransfer.files;
-  if (files.length > 0) {
-    handleFileUpload(files); 
-  }
-};
-
 const handleApply = async () => {
   message.loading("Initiating Neural Core Reboot...", { duration: 2000 });
   try {
@@ -158,7 +141,7 @@ const handleApply = async () => {
 </script>
 
 <style scoped>
-/* Base Layout */
+/* 原有的基礎 Layout 保留 */
 .right-ide { 
   background: var(--bg-primary); 
   display: flex; 
@@ -169,30 +152,36 @@ const handleApply = async () => {
   transition: all 0.3s ease;
 }
 
-/* Header */
+/* Header 優化 */
 .ide-header { 
   height: 40px; 
   background: var(--bg-secondary); 
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  padding: 0 15px; 
+  padding: 0 10px; 
   font-size: 0.75em; 
   color: var(--text-secondary); 
   flex-shrink: 0; 
   border-bottom: 1px solid var(--border-color);
   transition: all 0.3s ease;
 }
-.header-left { display: flex; align-items: center; gap: 10px; }
+.header-left { display: flex; align-items: center; gap: 6px; }
+
+/* 🌟 Neural Link 按鈕樣式 */
+.neural-link-btn { font-family: 'JetBrains Mono', monospace; font-weight: bold; transform: scale(0.9); border: 1px solid #444 !important; }
+.neural-link-btn .icon { margin-right: 4px; }
+.neural-link-btn:hover { border-color: var(--accent-primary) !important; color: var(--accent-primary) !important; box-shadow: 0 0 10px var(--accent-glow); }
+
 .apply-btn { font-family: 'JetBrains Mono', monospace; font-weight: bold; font-size: 0.9em; transform: scale(0.9); }
 .upload-status { color: var(--accent-primary); font-weight: bold; font-size: 0.8em; animation: pulse 1.5s infinite; }
-.ide-controls { display: flex; gap: 6px; }
+.ide-controls { display: flex; gap: 6px; margin-left: auto; }
 .dot { width: 10px; height: 10px; border-radius: 50%; } 
 .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
 
-/* File Tree */
+/* File Tree 保持不變 */
 .ide-file-tree { 
-  height: 200px; 
+  height: 180px; /* 稍微減小檔案樹高度 */
   display: flex; 
   flex-direction: column; 
   background: var(--bg-secondary); 
@@ -213,73 +202,37 @@ const handleApply = async () => {
 .nav-btn:disabled { opacity: 0.3; cursor: default; }
 
 .file-list-content { overflow-y: auto; padding: 5px 0; flex-grow: 1; font-size: 0.8em; color: var(--text-secondary); }
+.file-list-content::-webkit-scrollbar { width: 4px; }
+.file-list-content::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
 .tree-item { padding: 3px 10px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 6px; transition: 0.2s; }
 .tree-item:hover { background: var(--panel-bg); color: var(--text-primary); }
 .item-left { display: flex; align-items: center; gap: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.empty-folder { text-align: center; padding: 20px; font-style: italic; opacity: 0.5; font-size: 0.8em; }
-
-/* Delete Button */
-.delete-btn {
-  background: none; border: none; cursor: pointer;
-  opacity: 0; /* Hidden by default */
-  transition: opacity 0.2s;
-  font-size: 0.9em; padding: 2px 4px; border-radius: 3px;
-}
+.delete-btn { background: none; border: none; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 0.9em; padding: 2px 4px; border-radius: 3px; }
 .delete-btn:hover { background: rgba(255, 77, 77, 0.2); }
 .tree-item:hover .delete-btn { opacity: 1; }
+.empty-folder { text-align: center; padding: 20px; font-style: italic; opacity: 0.5; font-size: 0.8em; }
 
-/* Editor Area */
+/* 🌟 Editor Preview Mode 優化 */
 .ide-editor { flex-grow: 1; display: flex; flex-direction: column; background: var(--bg-primary); overflow: hidden; position: relative; transition: all 0.3s ease; }
+.ide-editor.preview-mode { border-top: none; } /* Preview 區不需要 Tabs 的邊框 */
 
-/* Tabs */
-.editor-tabs { 
-  background: var(--bg-secondary); 
-  height: 35px; 
-  display: flex; 
-  overflow-x: auto; 
-  flex-shrink: 0; 
-  border-bottom: 1px solid var(--border-color); 
-  transition: background 0.3s ease, border-color 0.3s ease; 
-}.editor-tabs::-webkit-scrollbar { height: 3px; }
-.editor-tabs::-webkit-scrollbar-thumb { background: var(--border-color); }
-
-.tab { 
-  padding: 0 10px; background: var(--panel-bg); color: var(--text-secondary); font-size: 0.8em; 
-  display: flex; align-items: center; gap: 8px; cursor: pointer; 
-  border-right: 1px solid var(--border-color); min-width: 100px; user-select: none; transition: 0.2s;
-}
-.tab:hover { background: var(--btn-bg); }
-.tab.active { background: var(--bg-primary); color: var(--text-primary); border-top: 2px solid var(--accent-primary); border-bottom: 1px solid var(--bg-primary); margin-bottom: -1px; }
-.tab-name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.unsaved-dot { font-size: 1.2em; color: var(--accent-primary); }
-.close-tab { border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.1em; transition: 0.2s; }
-.close-tab:hover { background: var(--btn-bg); color: var(--text-primary); }
-
-/* Code Area */
+/* Code Area 改為唯讀 Pre 樣式 */
 .code-area { 
-  flex-grow: 1; background: var(--bg-primary); color: var(--text-primary); border: none; padding: 15px; 
-  font-family: 'JetBrains Mono', monospace; font-size: 0.85em; line-height: 1.5; 
+  flex-grow: 1; background: #181825; color: #a6e3a1; /* 深色背景與粉綠色唯讀文字 */
+  border: none; padding: 15px; 
+  font-family: 'JetBrains Mono', monospace; font-size: 0.8em; line-height: 1.5; 
   resize: none; outline: none; transition: all 0.3s ease;
+  cursor: default; /* 改為指針 */
 }
 .empty-editor { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); }
-.logo-watermark { font-size: 2em; font-weight: bold; opacity: 0.1; }
-.hint { font-size: 0.8em; margin-top: 10px; opacity: 0.5; }
+.logo-watermark { font-size: 2em; font-weight: bold; opacity: 0.05; }
+.hint { font-size: 0.8em; margin-top: 10px; opacity: 0.4; }
 
-/* Footer */
-.ide-footer { height: 25px; background: var(--accent-primary); display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 0.7em; color: white; flex-shrink: 0; transition: background 0.3s ease; }
+/* Footer 改為唯讀狀態顏色 */
+.ide-footer { height: 25px; background: #313244; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; font-size: 0.7em; color: var(--text-secondary); flex-shrink: 0; transition: background 0.3s ease; border-top: 1px solid var(--border-color); }
 .left-stat { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
-.right-action { display: flex; align-items: center; }
+.right-action { display: flex; align-items: center; font-style: italic; opacity: 0.8; }
 
 @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-
-/* Mobile Optimizations */
-@media (max-width: 768px) {
-  .ide-file-tree { height: 150px; } 
-  .nav-btn { padding: 8px 12px; font-size: 1.2em; } 
-  .code-area { font-size: 14px; padding: 10px; }
-  .editor-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; } 
-  .tab { min-width: auto; padding: 0 15px; height: 35px; }
-  .ide-controls { display: none; } 
-  .delete-btn { opacity: 0.6; padding: 8px; font-size: 1.1em; display: block; }
-}
 </style>

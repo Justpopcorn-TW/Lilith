@@ -26,5 +26,5 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
-backend/src/configs/config.json
-backend/src/configs/relationshipRules.json
+
+backend/src/config/*.json

@@ -10,21 +10,16 @@
       @send="handleSend"
     />
 
-    <RightIDE 
-      :files="fileList"
-      :currentDir="currentDir"
-      :activeFile="activeFile"
-      :isApplying="isApplying"
-      @go-up="goParentDir"
-      @select-file="handleSelectFile"
-      @close-file="closeFile"
-      @save-file="handleSaveFile"
-      @apply-changes="applySystemChanges"
-    />
+    <RightIDE @open-neural-link="showNeuralEditor = true" />
 
     <SomaticPanel 
       :show="showAesPanel" 
       @close="showAesPanel = false" 
+    />
+
+    <NeuralEditor 
+      :show="showNeuralEditor" 
+      @close="showNeuralEditor = false" 
     />
   </div>
 </template>
@@ -35,14 +30,14 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import LeftStage from './components/LeftStage.vue';
 import CenterConsole from './components/CenterConsole.vue';
 import RightIDE from './components/RightIDE.vue';
+import NeuralEditor from './components/NeuralEditor.vue';
 import SomaticPanel from './components/SomaticPanel.vue';
 
 import { useChat } from './composables/useChat';
-import { useIDE } from './composables/useIDE';
 
 const showAesPanel = ref(false);
+const showNeuralEditor = ref(false); // 控制 VSCode 視窗
 
-// 🌟 取代 useGameSystem 的輕量時鐘
 const currentTime = ref('');
 let timer;
 const updateTime = () => {
@@ -52,26 +47,8 @@ const updateTime = () => {
 const savedConId = localStorage.getItem('lilith_conversation_id') || 'web_user';
 const { messageHistory, isThinking, currentConversationId, sendMessage, loadHistory } = useChat(savedConId);
 
-const { 
-  fileList, currentDir, activeFile, isApplying,
-  fetchFileList, goParentDir, openFile, closeFile, saveFile, applySystemChanges 
-} = useIDE();
-
 const handleSend = async (text) => {
   await sendMessage(text, []); 
-};
-
-const handleSelectFile = (item) => {
-  if (item.type === 'folder') {
-    currentDir.value = item.path;
-    fetchFileList(); 
-  } else {
-    openFile(item.path); 
-  }
-};
-
-const handleSaveFile = async (fileObj) => {
-  await saveFile(fileObj.path, fileObj.content);
 };
 
 onMounted(() => {
