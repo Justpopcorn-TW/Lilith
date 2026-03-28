@@ -231,12 +231,12 @@ const formatNumber = (num) => {
 
 /* 進場動畫：縮小 -> 放大，帶模糊感 */
 .sprite-fade-enter-active {
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* 離場動畫：正常 -> 縮小 */
 .sprite-fade-leave-active {
-  transition: all 0.4s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 .sprite-fade-enter-from {

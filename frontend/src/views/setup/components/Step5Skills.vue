@@ -115,39 +115,75 @@ const handleJsonChange = (e) => {
 </script>
 
 <style scoped>
-.skills-list { display: flex; flex-direction: column; gap: 1rem; max-height: 400px; overflow-y: auto; padding-right: 10px; }
-.skill-item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; background: #fff; border: 1px solid #eee; border-radius: 12px; transition: all 0.2s ease; }
-.skill-item:hover { border-color: #fbcfe8; box-shadow: 0 4px 12px rgba(236,72,153,0.05); }
-.skill-item.is-system { background: #fafafa; border-color: #ddd; }
+/* --- 優化後的列表與項目樣式 --- */
+.skills-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.6rem; /* 🌟 縮小項目間的距離 */
+  max-height: 400px; 
+  overflow-y: auto; 
+  padding-right: 8px; 
+}
 
-.skill-info { flex: 1; text-align: left; }
-.skill-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
-.skill-name { font-weight: 700; font-size: 1.1rem; color: #111; font-family: 'JetBrains Mono', monospace; }
-.skill-desc { font-size: 0.9rem; color: #666; line-height: 1.4; margin: 0; }
-.skill-id-hint { font-size: 0.75rem; color: #aaa; margin-top: 4px; font-family: 'JetBrains Mono', monospace; }
+.skill-item { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0.8rem 1rem; /* 🌟 縮小內距 (上下 0.8, 左右 1.0) */
+  background: #fff; 
+  border: 1px solid #eee; 
+  border-radius: 10px; /* 稍微減小圓角以符合緊湊感 */
+  transition: all 0.2s ease; 
+}
 
-.badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; font-weight: bold; letter-spacing: 0.5px; }
-.system-badge { background: #111; color: white; }
+.skill-item:hover { 
+  border-color: #fbcfe8; 
+  box-shadow: 0 2px 8px rgba(236,72,153,0.05); 
+}
 
-/* Switch Style */
-.skill-toggle { position: relative; width: 50px; height: 26px; }
-.skill-toggle input { opacity: 0; width: 0; height: 0; }
-.toggle-switch { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .3s; border-radius: 34px; }
-.toggle-switch:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+.skill-item.is-system { 
+  background: #fafafa; 
+  border-color: #ddd; 
+}
 
-.skill-toggle input:checked + .toggle-switch { background-color: #ec4899; }
-.skill-toggle input:disabled + .toggle-switch { background-color: #e5e5e5; cursor: not-allowed; }
-.skill-toggle input:disabled:checked + .toggle-switch { background-color: #fbcfe8; }
-.skill-toggle input:checked + .toggle-switch:before { transform: translateX(24px); }
+.skill-info { 
+  flex: 1; 
+  text-align: left; 
+  padding-right: 12px; /* 確保文字不會貼到按鈕 */
+}
 
-/* JSON Editor & Demo Box */
-.json-editor-container { background: #f9f9f9; padding: 1.5rem; border-radius: 12px; border: 1px solid #ddd; height: 100%; }
-.json-editor { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #333; background: #fff; line-height: 1.5; resize: vertical; margin-top: 1rem; }
-.error-text { color: #dc2626; font-size: 0.85rem; margin-top: 0.5rem; font-weight: bold; }
-.help-text { font-size: 0.85rem; color: #666; margin-bottom: 0.8rem; line-height: 1.4; }
+.skill-header { 
+  display: flex; 
+  align-items: center; 
+  gap: 0.6rem; /* 🌟 縮小標題與標籤間距 */
+  margin-bottom: 0.2rem; /* 🌟 縮小標題與描述間距 */
+}
 
-/* 🌟 Demo Box 樣式 */
-.demo-box { background: #e0f2fe; border-left: 4px solid #0ea5e9; padding: 1rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; }
-.demo-title { font-size: 0.85rem; font-weight: 600; color: #0369a1; margin-bottom: 0.5rem; }
-.demo-code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #0c4a6e; margin: 0; white-space: pre-wrap; line-height: 1.4; }
+.skill-name { 
+  font-weight: 700; 
+  font-size: 1rem; /* 稍微縮小字體 */
+  color: #111; 
+  font-family: 'JetBrains Mono', monospace; 
+}
+
+.skill-desc { 
+  font-size: 0.85rem; /* 稍微縮小描述字體 */
+  color: #666; 
+  line-height: 1.3; 
+  margin: 0; 
+}
+
+.skill-id-hint { 
+  font-size: 0.7rem; 
+  color: #ccc; 
+  margin-top: 2px; 
+  font-family: 'JetBrains Mono', monospace; 
+}
+
+/* 🌟 小標籤同步微調 */
+.badge { 
+  font-size: 0.65rem; 
+  padding: 1px 6px; 
+  border-radius: 4px; 
+}
 </style>
