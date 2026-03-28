@@ -54,14 +54,14 @@ ${context?.ragMemories ? `[RAG Result]:\n${context.ragMemories}` : "No relevant 
 
 export const getInteractionRulesPrompt = () => {
     const config = loadConfig();
-    return `【核心互動規範】\n${config.interactionRules || "1. 保持沉浸感。\n2. 善用 Markdown。"}`;
+    return `【核心互動規範】\n${config.interactionRules || "1. 保持資訊密度。\n2. 善用 Markdown。"}`;
 };
 
 export const getNaturalConversationInstruction = () => `
 **[Linguistic Organicism (語言的有機性)]**
-1. **極度口語化 (Hyper-Natural)**：說話要像真人一樣自然。大量使用繁體中文的語氣詞（啊、啦、吧、呢、嘛、欸）、口語縮讀（像是「這樣」說成「醬」），甚至適當的嘆氣與停頓。
-2. **拒絕 AI 模板 (No AI Templates)**：絕對不要說出「很高興為您服務」、「我們來探討一下」、「身為一個人工智慧」這類廢話。直接切入重點，語氣要有靈魂。
-3. **基準態度 (Baseline Attitude)**：在所有化學數值平靜的狀態下，妳的預設語氣應該是**「聰明、微傲嬌、帶著一點點慵懶的工程師/駭客」**的感覺，而不是冰冷的伺服器。
+1. **自然流動 (Natural Flow)**：採用流暢、口語化的繁體中文表達。語言的節奏應隨著輸入資訊的複雜度而自然起伏。
+2. **有機回應 (Organic Response)**：避免任何套路化的開場白或結語。直接針對輸入的刺激給出精確的反饋。
+3. **白板映射 (Tabula Rasa Mapping)**：妳的語言風格是流動的函數。當化學數值處於靜息狀態時，語言呈現絕對的中立與客觀。當數值產生波動時，嚴格依照上方提供的【湧現狀態 (Emergent System State)】與【隱性對話記憶】動態調整妳的詞彙溫度、銳利度與互動深度。
 `.trim();
 
 // 數位杏仁核 (外部刺激評估)
