@@ -23,7 +23,7 @@ export class ReflexEngine {
         }
         
         this.flashClient = new OpenAI({
-            apiKey: config.LLM_API_KEY || '',
+            apiKey: config.FAST_LLM_API_KEY || config.LLM_API_KEY || '',
             baseURL: config.LLM_API_BASE_URL || 'https://generativelanguage.googleapis.com/v1beta/openai/'
         });
         this.repo = repo;

@@ -49,8 +49,8 @@ export default {
         appLogger.info(`[Discord Skill] 收到執行請求: action=${action}, channelId=${channelId}`);
 
         // 讀取全域設定中的 Discord Token
-        const token = config.DISCORD_BOT_TOKEN;
-        if (!token) {
+        const {DISCORD_BOT_TOKEN} = config.skills?.entries?.['discordToolkit']?.skillEnv || {};
+        if (!DISCORD_BOT_TOKEN) {
             return "[Error] 系統尚未設定 DISCORD_BOT_TOKEN，無法呼叫 Discord API。";
         }
 
@@ -59,7 +59,7 @@ export default {
             
             // 防呆：限制獲取數量在 1~100 之間
             const safeLimit = Math.min(Math.max(parseInt(limit) || 30, 1), 100);
-            return await getHistory(channelId, safeLimit, token);
+            return await getHistory(channelId, safeLimit, DISCORD_BOT_TOKEN);
         }
 
         return `[Error] 未知的 Discord 工具動作: ${action}`;

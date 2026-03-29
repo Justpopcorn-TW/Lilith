@@ -27,4 +27,4 @@ Thumbs.db
 *.swp
 *.swo
 
-backend/src/config/*.json
+backend/src/configs/*.json

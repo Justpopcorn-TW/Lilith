@@ -17,11 +17,11 @@ export default {
         if (['r18', 'nsfw', 'sex', 'nude'].some(kw => prompt.toLowerCase().includes(kw))) return "❌ 阻斷：包含敏感詞。請改用文字描繪。";
         try {
             // 🌟 OpenClaw 格式優先，無則 Fallback
-            const apiKey = config.skills?.entries?.['nano-banana']?.env || {};
+            const {NANO_API_KEY} = config.skills?.entries?.['nano-banana']?.skillEnv || {};
 
-            if (!apiKey) throw new Error('GEMINI_API_KEY 未設定');
+            if (!NANO_API_KEY) throw new Error('NANO_API_KEY 未設定');
 
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${apiKey}`;
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${NANO_API_KEY}`;
             const response = await fetch(endpoint, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

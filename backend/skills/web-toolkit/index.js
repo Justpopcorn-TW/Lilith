@@ -15,12 +15,12 @@ const fetchWebContent = async (url) => {
 
 const performWebSearch = async (query, config) => {
     // 🌟 OpenClaw 格式優先，無則 Fallback
-    const apiKey = config.skills?.entries?.['web-toolkit']?.env || {};
+    const { SERPAPI_KEY } = config.skills?.entries?.['web-toolkit']?.skillEnv || {};
 
-    if (!apiKey) return "[System Alert] 搜尋 API KEY 未設定。請在設定中配置。";
+    if (!SERPAPI_KEY) return "[System Alert] 搜尋 API KEY 未設定。請在設定中配置。";
     
     try {
-        const data = await new Promise((res, rej) => getJson({ engine: "google", q: query, api_key: apiKey }, j => j.error ? rej(new Error(j.error)) : res(j)));
+        const data = await new Promise((res, rej) => getJson({ engine: "google", q: query, api_key: SERPAPI_KEY }, j => j.error ? rej(new Error(j.error)) : res(j)));
         if (!data.organic_results || data.organic_results.length === 0) return `找不到關於 "${query}" 的資訊。`;
         const results = data.organic_results.slice(0, 5).map((i, idx) => `[${idx + 1}] ${i.title}\n   摘要: ${i.snippet}\n   來源: ${i.link}`).join('\n\n');
         return `"${query}" 的搜尋結果：\n\n${results}`;
