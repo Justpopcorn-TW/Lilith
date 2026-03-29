@@ -1,5 +1,5 @@
 ---
-name: web-toolkit
+name: webtoolkit
 description: 網路資訊探索與爬蟲準則
 ---
 # Web Toolkit Operating Guidelines

@@ -1,5 +1,5 @@
 ---
-name: discordToolkit
+name: discordtoolkit
 description: Discord 工具使用規範
 ---
 # Discord Toolkit Guidelines

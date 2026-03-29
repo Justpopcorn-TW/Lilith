@@ -1,5 +1,5 @@
 {
-  "name": "manageFileSystem",
+  "name": "managefilesystem",
   "description": "【檔案系統管理】執行讀取、寫入、列出目錄、移動或刪除檔案。",
   "parameters": {
     "type": "object",

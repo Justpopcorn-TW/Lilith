@@ -1,6 +1,6 @@
 ---
-name: memory
-description: 核心知識庫操作準則
+name: updatecoreknowledge
+description: 核心知識庫更新規範
 system: true
 ---
 # Knowledge Base Operating Guidelines

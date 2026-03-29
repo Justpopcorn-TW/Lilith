@@ -1,5 +1,5 @@
 ---
-name: file-system
+name: managefilesystem
 description: 檔案系統操作與代碼進化規範
 system: true
 ---

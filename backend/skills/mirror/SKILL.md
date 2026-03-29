@@ -1,7 +1,6 @@
 ---
-name: lookInMirror
+name: mirror
 description: 看鏡子
-system: true
 ---
 # Look in the Mirror
 

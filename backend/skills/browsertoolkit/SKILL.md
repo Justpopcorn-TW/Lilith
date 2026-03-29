@@ -1,5 +1,5 @@
 ---
-name: browser
+name: browsertoolkit
 description: 瀏覽器自動化操作 SOP
 ---
 # Browser Automation SOP

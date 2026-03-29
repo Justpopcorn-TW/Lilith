@@ -1,5 +1,5 @@
 ---
-name: system_guidelines
+name: restartsystem
 description: 系統操作規範與意識重組指南
 system: true
 ---

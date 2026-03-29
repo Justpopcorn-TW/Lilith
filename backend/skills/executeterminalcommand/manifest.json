@@ -1,5 +1,5 @@
 {
-  "name": "executeTerminalCommand",
+  "name": "executeterminalcommand",
   "description": "【全狀態終端機】在持續開啟的 shell 執行 Bash 指令 (預設為 Docker 內部)。要操作使用者本機請在此執行 SSH。",
   "parameters": {
     "type": "object",

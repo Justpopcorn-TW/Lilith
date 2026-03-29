@@ -1,5 +1,5 @@
 ---
-name: nano_banana_guidelines
+name: generateimage
 description: Nano Banana 繪圖引擎使用規範
 ---
 # Nano Banana Engine Guidelines

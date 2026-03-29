@@ -1,5 +1,5 @@
 {
-  "name": "webToolkit",
+  "name": "webtoolkit",
   "description": "【網路工具箱】使用搜尋引擎查找資料，或直接讀取特定網址的純文字內容。",
   "parameters": {
     "type": "object",

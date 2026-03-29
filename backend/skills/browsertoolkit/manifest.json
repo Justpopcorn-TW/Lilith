@@ -1,5 +1,5 @@
 {
-  "name": "browserToolkit",
+  "name": "browsertoolkit",
   "description": "控制無頭瀏覽器進行網頁自動化操作。可用於開啟網頁、點擊元素、輸入文字、滾動頁面、管理分頁與截圖。",
   "parameters": {
     "type": "object",

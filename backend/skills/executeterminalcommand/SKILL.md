@@ -1,5 +1,5 @@
 ---
-name: terminal_guidelines
+name: executeterminalcommand
 description: Bash 終端機安全操作準則
 system: true
 ---

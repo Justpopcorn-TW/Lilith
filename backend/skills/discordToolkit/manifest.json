@@ -1,5 +1,5 @@
 {
-  "name": "discordToolkit",
+  "name": "discordtoolkit",
   "description": "【Discord 輔助工具】用來獲取 Discord 頻道的歷史訊息，讓妳能回顧群組之前的討論上下文。",
   "parameters": {
     "type": "object",
