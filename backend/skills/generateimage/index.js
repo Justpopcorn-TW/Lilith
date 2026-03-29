@@ -16,8 +16,7 @@ export default {
     run: async ({ prompt }, config) => {
         if (['r18', 'nsfw', 'sex', 'nude'].some(kw => prompt.toLowerCase().includes(kw))) return "❌ 阻斷：包含敏感詞。請改用文字描繪。";
         try {
-            // 🌟 OpenClaw 格式優先，無則 Fallback
-            const {NANO_API_KEY} = config.skills?.entries?.['nano-banana']?.skillEnv || {};
+            const {NANO_API_KEY} = config.entries?.['generateimage']?.skillEnv || {};
 
             if (!NANO_API_KEY) throw new Error('NANO_API_KEY 未設定');
 

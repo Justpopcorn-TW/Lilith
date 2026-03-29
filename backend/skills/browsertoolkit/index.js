@@ -1,6 +1,7 @@
 import { chromium } from 'playwright';
 import http from 'http';
 import { appLogger } from '../../src/core/services/logger.js'; 
+import { config } from 'process';
 
 let browserContext = null;
 let activePage = null;
@@ -8,8 +9,9 @@ let activePage = null;
 const getChromeWsUrl = () => {
     return new Promise((resolve, reject) => {
         appLogger.info('[Browser] Requesting WS endpoint via low-level HTTP...');
+        const { BROWSERLESS_WS_ENDPOINT } = config.entries?.['browsertoolkit']?.skillEnv;
         const req = http.request({
-            hostname: 'host.docker.internal',
+            hostname: BROWSERLESS_WS_ENDPOINT,
             port: 9222,
             path: '/json/version',
             method: 'GET',

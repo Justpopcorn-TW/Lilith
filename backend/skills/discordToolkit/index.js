@@ -49,7 +49,7 @@ export default {
         appLogger.info(`[Discord Skill] 收到執行請求: action=${action}, channelId=${channelId}`);
 
         // 讀取全域設定中的 Discord Token
-        const {DISCORD_BOT_TOKEN} = config.skills?.entries?.['discordToolkit']?.skillEnv || {};
+        const {DISCORD_BOT_TOKEN} = config.entries?.['discordtoolkit']?.skillEnv || {};
         if (!DISCORD_BOT_TOKEN) {
             return "[Error] 系統尚未設定 DISCORD_BOT_TOKEN，無法呼叫 Discord API。";
         }

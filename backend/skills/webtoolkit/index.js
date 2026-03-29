@@ -14,7 +14,7 @@ const fetchWebContent = async (url) => {
 };
 
 const performWebSearch = async (query, config) => {
-    const { SERPAPI_KEY } = config.skills?.entries?.['web-toolkit']?.skillEnv || {};
+    const { SERPAPI_KEY } = config.entries?.['web-toolkit']?.skillEnv || {};
 
     if (!SERPAPI_KEY) return "[System Alert] 搜尋 API KEY 未設定。請在設定中配置。";
     
