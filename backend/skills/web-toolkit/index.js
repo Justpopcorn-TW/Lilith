@@ -9,12 +9,11 @@ const fetchWebContent = async (url) => {
         $('script, style, noscript, iframe, img, svg, header, footer, nav').remove();
         let content = $('body').text().replace(/[ \t]+/g, ' ').replace(/\n\s*\n/g, '\n').trim();
         if (content.length > 12000) content = content.substring(0, 12000) + "\n...(系統已截斷)";
-        return content.length < 50 ? "[存取受限] 目標網站可能有反爬蟲結界。" : `[來源]: ${url}\n[內容]:\n${content}`;
+        return content.length < 50 ? "[存取受限] 目標網站可能有反爬蟲。" : `[來源]: ${url}\n[內容]:\n${content}`;
     } catch (e) { return `[擷取失敗] ${e.message}`; }
 };
 
 const performWebSearch = async (query, config) => {
-    // 🌟 OpenClaw 格式優先，無則 Fallback
     const { SERPAPI_KEY } = config.skills?.entries?.['web-toolkit']?.skillEnv || {};
 
     if (!SERPAPI_KEY) return "[System Alert] 搜尋 API KEY 未設定。請在設定中配置。";
