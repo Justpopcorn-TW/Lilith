@@ -20,7 +20,8 @@ export const systemService = {
         return {
             ...config,
             characterCard: getFile(path.join(CONFIG_DIR, 'characterCard.md')),
-            relationshipRules: fs.existsSync(relationshipRulesPath) ? JSON.parse(fs.readFileSync(relationshipRulesPath, 'utf-8')) : null
+            relationshipRules: fs.existsSync(relationshipRulesPath) ? JSON.parse(fs.readFileSync(relationshipRulesPath, 'utf-8')) : null,
+            userMemory: getFile(path.join(CONFIG_DIR, 'User.md')),
         };
     },
 
@@ -64,6 +65,7 @@ export const systemService = {
         fs.writeFileSync(CONFIG_PATH, JSON.stringify(newConfig, null, 2), 'utf-8');
         if (body.characterCard !== undefined) fs.writeFileSync(path.join(CONFIG_DIR, 'characterCard.md'), body.characterCard, 'utf-8');
         if (body.relationshipRules) fs.writeFileSync(path.join(CONFIG_DIR, 'relationshipRules.json'), JSON.stringify(body.relationshipRules, null, 2), 'utf-8');
+        if (body.userMemory !== undefined) { fs.writeFileSync(path.join(CONFIG_DIR, 'User.md'), body.userMemory, 'utf-8');}
     },
 
     getAvailableSkills: () => {

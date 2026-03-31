@@ -6,7 +6,7 @@
     "properties": {
       "topic": { 
         "type": "string", 
-        "description": "要寫入的目標。可選：'infra' (架構與配置), 'lessons' (除錯教訓與守則), 'projects' (專案進度)",
+        "description": "要寫入的目標。可選：'infra' (莉莉絲本體架構與配置), 'lessons' (除錯教訓與守則), 'projects' (專案進度)",
         "enum": ["infra", "lessons", "projects"]
       },
       "content": { 

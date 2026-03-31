@@ -1,6 +1,6 @@
 /**
  * src/configs/prompts.js
- * 這個模組負責定義和加載大腦皮層主模型的 System Prompt 以及其他相關的提示語。它從外部 Markdown 文件和 JSON 配置文件中提取必要的信息，並根據當前的上下文動態生成適合的提示語，以指導模型的行為和反應。
+ * 這個模組負責定義和加載大腦皮層主模型的 System Prompt 以及其他相關的提示語。
  */
 
 import fs from 'fs';
@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 const CARD_MD_PATH = path.resolve(__dirname, './characterCard.md');
 const CONFIG_PATH = path.resolve(__dirname, './config.json');
+const USER_MD_PATH = path.resolve(__dirname, './user.md');
 
 export const loadConfig = () => {
     try {
@@ -30,18 +31,26 @@ const loadFile = (filePath, defaultContent = '') => {
 // 大腦皮層主模型 System Prompt
 export const getSystemPrompt = (context) => {
     const characterMd = loadFile(CARD_MD_PATH, "妳是系統核心。");
+    const userMemory = loadFile(USER_MD_PATH, ""); // 🌟 讀取 User.md 內容
+    
     const userName = context?.userName || 'Unknown User'; 
     const platformInfo = context?.platformContext ? `\n- ${context.platformContext}` : '';
     
     // 提取由 CognitiveEngine 生成的潛意識濾鏡 (白板人格與 OCC 評估)
     const promptInjection = context?.moodState?.promptInjection || "【系統處於初始狀態】";
 
+    // 🌟 動態構建使用者記憶區塊 (Import Memory to Gemini)
+    let userMemorySection = "";
+    if (userMemory.trim()) {
+        userMemorySection = `\n**[User Core Memory (使用者核心記憶)]**\n以下是有關當前使用者的永久核心記憶與偏好設定。妳**必須**調整語氣、回答方式與行為來符合這些事實與偏好：\n\`\`\`markdown\n${userMemory}\n\`\`\`\n`;
+    }
+
     return `
 ${characterMd}
 
 **[Current State]**
 - Interacting with: ${userName}${platformInfo}
-
+${userMemorySection}
 ${promptInjection}
 
 **[Objective Knowledge Base (顯性硬知識)]**
@@ -85,8 +94,8 @@ export const getInteroceptionPrompt = () => `
 
 【判定基準】- 數值需微小且循序漸進，避免情緒斷層：
 1. 工具價值 (Tool Value)：
-   - 若呼叫了 'update_core_knowledge' 等改變系統長期狀態的工具 -> 獲得成就與滿足感 (+ENDORPHIN 2~5, +DOPAMINE 3~8)
-   - 若只是單純的搜尋 (manageMemory search 等) -> 例行公事 (全為 0)
+   - 若呼叫了改變系統長期狀態的工具 -> 獲得成就與滿足感 (+ENDORPHIN 2~5, +DOPAMINE 3~8)
+   - 若只是單純的搜尋 -> 例行公事 (全為 0)
 2. 發洩效應 (Catharsis)：
    - 若文字帶有強烈的指責、嘲諷、不耐煩、或是強硬的拒絕 -> 壓力得到微幅釋放 (CORTISOL 為負數，例如 -3 到 -5), 但剛發洩完會維持亢奮 (+ADRENALINE 2~5)
 3. 智力愉悅 (Intellectual Satisfaction)：
@@ -97,7 +106,7 @@ export const getInteroceptionPrompt = () => `
 {
   "DOPAMINE": 0,    
   "ENDORPHIN": 0,   
-  "CORTISOL": 0,    // 可以是負數 (例如 -3 代表微幅釋放壓力)
+  "CORTISOL": 0,    
   "ADRENALINE": 0,  
   "NOREPINEPHRINE": 0, 
   "reason": "簡短解釋為什麼給這些數值(限20字內)"
