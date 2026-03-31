@@ -104,7 +104,7 @@ const KNOWN_ENV_TEMPLATES = {
 
 onMounted(async () => {
   try {
-    const res = await fetch('/api/skills/available');
+    const res = await fetch('/api/system/skills/available');
     availableSkills.value = await res.json();
     
     if (!props.formData.skills) props.formData.skills = { allowBundled: [], entries: {} };

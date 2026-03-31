@@ -124,7 +124,7 @@ onMounted(async () => {
   if (savedConId) form.conversationId = savedConId;
 
   try {
-    const res = await fetch('/api/settings');
+    const res = await fetch('/api/system/settings');
     if (res.ok) {
       const data = await res.json();
       
@@ -202,7 +202,7 @@ const finishSetup = async () => {
       generalSettings: form.generalSettings // 儲存通用設定
     };
 
-    const response = await fetch('/api/settings', {
+    const response = await fetch('/api/system/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

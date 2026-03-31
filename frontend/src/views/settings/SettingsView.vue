@@ -140,7 +140,7 @@ const form = reactive({
 
 onMounted(async () => {
   try {
-    const res = await fetch('/api/settings');
+    const res = await fetch('/api/system/settings');
     if (res.ok) {
       const data = await res.json();
       if (data.llmModel) form.llmModel = data.llmModel;
