@@ -18,7 +18,7 @@ export class LilithRepository {
         this.db = db;
         
         this.knowledgeFiles = {
-            memory: './data/memory.md'
+            memory: './data/memory/memory.md'
         };
     }
 

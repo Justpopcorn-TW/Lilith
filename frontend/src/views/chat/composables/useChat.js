@@ -35,7 +35,7 @@ export function useChat(defaultConversationId) {
 
     const loadHistory = async () => {
         try {
-            const res = await fetch(`/api/history?conversationId=${currentConversationId.value}`);
+            const res = await fetch(`/api/chat/history?conversationId=${currentConversationId.value}`);
             const data = await res.json();
             
             messageHistory.value = (data.history || []).map(msg => ({
@@ -136,7 +136,7 @@ export function useChat(defaultConversationId) {
 
     const resetHistory = async () => {
         try {
-            await fetch('/api/history/reset', {
+            await fetch('/api/chat/history/reset', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ conversationId: currentConversationId.value })
