@@ -1,11 +1,3 @@
-#!/bin/bash
-
-# 定義粉紅色與重置顏色
-PINK='\033[1;35m'
-CYAN='\033[0;36m'
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
 clear
 echo -e "${PINK}========================================================${NC}"
 echo -e "${PINK}                ✨ Lilith OS Boot Sequence ✨          ${NC}"
