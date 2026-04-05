@@ -6,6 +6,11 @@ dist/
 frontend/dist/
 backend/public/
 
+data/
+backups/
+logs/
+share/
+
 .DS_Store
 **/ .DS_Store
 Thumbs.db
